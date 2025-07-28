@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat IA Revolution</title>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        --chat--color-primary: #7C00FF; --chat--color-primary-shade-50: #6B00E6; --chat--color-primary-shade-100: #5A00CC; --chat--color-secondary: #7C00FF; --chat--color-secondary-shade-50: #6B00E6; --chat--color-dark: #7C00FF; --chat--color-light: #232323; --chat--color-white: #232323; --chat--color-light-shade-50: #2a2a2a; --chat--color-light-shade-100: #333333; --chat--color-medium: #404040; --chat--color-disabled: #777980; --chat--color-typing: #ffffff; --chat--border-radius: 16px; --chat--window--width: 420px; --chat--window--height: 560px; --chat--window--border: 1px solid #333333; --chat--font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif; --chat--header--background: #7C00FF; --chat--header--color: #ffffff; --chat--header--padding: 1.2rem; --chat--heading--font-size: 2em; --chat--subtitle--font-size: 0.9em; --chat--subtitle--line-height: 1.2; --chat--message--bot--background: #333333; --chat--message--bot--color: #ffffff; --chat--message--bot--border: none; --chat--message--user--background: #535353; --chat--message--user--color: #ffffff; --chat--message--user--border: none; --chat--message--pre--background: rgba(255, 255, 255, 0.1); --chat--messages-list--padding: 1rem; --chat--message--font-size: 1rem; --chat--message--padding: 1rem; --chat--message--border-radius: 16px; --chat--message-line-height: 1.5; --chat--message--margin-bottom: 1rem; --chat--textarea--height: 50px; --chat--textarea--max-height: 30rem; --chat--input--font-size: inherit; --chat--input--border: 0; --chat--input--border-radius: 0; --chat--input--padding: 0.8rem; --chat--input--background: #232323; --chat--input--text-color: #ffffff; --chat--input--line-height: 1.5; --chat--input--placeholder--font-size: inherit; --chat--input--border-active: 0; --chat--input--left--panel--width: 2rem; --chat--button--color: #ffffff; --chat--button--background: #7C00FF; --chat--button--padding: 0.5rem 1rem; --chat--button--border-radius: 16px; --chat--button--hover--color: #ffffff; --chat--button--hover--background: #6B00E6; --chat--close--button--color-hover: #7C00FF; --chat--toggle--size: 64px; --chat--toggle--width: var(--chat--toggle--size); --chat--toggle--height: var(--chat--toggle--size); --chat--toggle--border-radius: 50%; --chat--toggle--background: #7C00FF; --chat--toggle--hover--background: #6B00E6; --chat--toggle--active--background: #5A00CC; --chat--toggle--color: #ffffff; --chat--input--send--button--background: #232323; --chat--input--send--button--color: #ffffff; --chat--input--send--button--background-hover: #7C00FF; --chat--input--send--button--color-hover: #ffffff; --chat--input--file--button--background: #232323; --chat--input--file--button--color: #7C00FF; --chat--input--file--button--background-hover: #333333; --chat--input--file--button--color-hover: #6B00E6; --chat--files-spacing: 0.25rem; --chat--body--background: #232323; --chat--footer--background: #232323; --chat--footer--color: #ffffff;
+      }
+      .chat-header h1, .chat-header h2, .chat-header h3, .chat-title, h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif !important; color: #ffffff !important; font-weight: 600; margin-bottom: 0.1em !important; margin-top: 0 !important; }
+      .chat-header h1, .chat-title { font-weight: 600 !important; line-height: 1.1 !important; }
+      .chat-header p, .chat-subtitle { font-family: 'Montserrat', sans-serif !important; font-weight: 600 !important; color: #ffffff !important; margin-top: 0 !important; margin-bottom: 0.5em !important; }
+      .chat-message, .chat-input, .chat-body, p, span, div, input, textarea { font-family: 'Poppins', sans-serif !important; color: #ffffff !important; }
+      input::placeholder, textarea::placeholder { color: #999999 !important; opacity: 1; }
+      .chat-message { max-width: 80% !important; color: #ffffff !important; }
+      .chat-message--bot, .chat__message--bot { max-width: 80% !important; }
+      ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #232323; } ::-webkit-scrollbar-thumb { background: #7C00FF; border-radius: 6px; } ::-webkit-scrollbar-thumb:hover { background: #6B00E6; }
+      .chat__toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: auto !important; min-width: 180px !important; border-radius: 30px !important; padding: 0 20px !important; font-family: 'Poppins', sans-serif !important; }
+      .chat__toggle svg { display: inline-block !important; margin-right: 10px !important; width: 24px !important; height: 24px !important; }
+      .chat__toggle::after { content: "Tire Dúvidas com IA"; display: inline-block; color: white; font-size: 14px; font-weight: 500; font-family: 'Poppins', sans-serif !important; }
+      .chat__welcome-screen-button { display: none !important; }
+      .chat__footer > span, .chat__footer span, span.svelte-15j5n1q { display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; font-size: 0 !important; }
+      span:has-text("Powered by"), span:has-text("n8n") { display: none !important; }
+      .chat__footer:empty { height: 0 !important; padding: 0 !important; margin: 0 !important; }
+      .chat__footer { position: relative !important; }
+      .chat__footer > * { position: absolute !important; left: -9999px !important; opacity: 0 !important; }
+    </style>
+</head>
+<body style="margin: 0;">
+
+    <div id="iarev-chat"></div>
+
+    <script type="module">
+      import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js";
+
+      if (window.__iarevChat) {
+        window.__iarevChat.destroy?.();
+      }
+
+      const slugify = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_");
+      
+      const metadata = {
+        modulo: nomeModuloEstatico,
+        aula: "aula_geral"
+      };
+
+      console.log('DEPURAÇÃO NETLIFY: Script do iframe iniciado. Aguardando mensagens...');
+
+      window.addEventListener('message', function(event) {
+        console.log('DEPURAÇÃO NETLIFY: MENSAGEM RECEBIDA!', {
+          dados: event.data,
+          origem: event.origin
+        });
+
+        if (!event.origin.includes('https://membros.iarevolution.com.br/')) {
+            console.warn('DEPURAÇÃO NETLIFY: Mensagem ignorada por falha na verificação de segurança. Origem:', event.origin);
+            return;
+        }
+
+        if (event.data && event.data.type === 'setAula') {
+          console.log('DEPURAÇÃO NETLIFY: Mensagem válida! Atualizando nome da aula para ->', event.data.aula);
+          metadata.aula = slugify(event.data.aula);
+        }
+      });
+
+      function removePoweredByN8n() {
+        const footerElements = document.querySelectorAll('.chat__footer span, .chat__footer > span, span.svelte-15j5n1q');
+        footerElements.forEach(el => {
+          if (el.textContent.includes('Powered by') || el.textContent.includes('n8n')) {
+            el.remove();
+          }
+        });
+        const walker = document.createTreeWalker(document.getElementById('iarev-chat'), NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        const nodesToRemove = [];
+        while (node = walker.nextNode()) {
+          if (node.textContent.includes('Powered by n8n')) {
+            nodesToRemove.push(node.parentElement);
+          }
+        }
+        nodesToRemove.forEach(el => {
+          if (el) el.remove();
+        });
+        const footer = document.querySelector('.chat__footer');
+        if (footer && footer.textContent.includes('Powered by')) {
+          footer.innerHTML = '';
+          footer.style.display = 'none';
+        }
+      }
+
+      window.__iarevChat = createChat({
+        target: "#iarev-chat",
+        webhookUrl: "/api/chat-proxy",
+        metadata,
+        showWelcomeScreen: false,
+        initialMessages: [
+            "Olá! Sou a Athena, monitora do IA Revolution. Me fala qual é sua pergunta sobre essa aula, que vou te ajudar 😄"
+        ],
+        i18n: {
+          en: {
+            title: 'Athena IA 🧠',
+            subtitle: "Sua Monitora do IA Revolution!",
+            inputPlaceholder: "Digite sua dúvida aqui…",
+          }
+        }
+      });
+
+      setTimeout(removePoweredByN8n, 100);
+      setTimeout(removePoweredByN8n, 500);
+      setTimeout(removePoweredByN8n, 1000);
+      setTimeout(removePoweredByN8n, 2000);
+      const observer = new MutationObserver(function(mutations) {
+        let shouldCheck = false;
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            shouldCheck = true;
+          }
+        });
+        if (shouldCheck) {
+          setTimeout(removePoweredByN8n, 100);
+        }
+      });
+      setTimeout(() => {
+        const chatContainer = document.getElementById('iarev-chat');
+        if (chatContainer) {
+          observer.observe(chatContainer, {
+            childList: true,
+            subtree: true
+          });
+        }
+      }, 1000);
+      setTimeout(() => {
+        const toggleButton = document.querySelector('.chat__toggle');
+        if (toggleButton) {
+          const svgIcon = toggleButton.querySelector('svg');
+          if (svgIcon) {
+            svgIcon.style.marginRight = '10px';
+          }
+          const textSpan = document.createElement('span');
+          textSpan.textContent = 'Tire Dúvidas com IA';
+          textSpan.style.color = 'white';
+          textSpan.style.fontSize = '14px';
+          textSpan.style.fontWeight = '500';
+          textSpan.style.fontFamily = "'Poppins', sans-serif";
+          toggleButton.appendChild(textSpan);
+          toggleButton.style.display = 'flex';
+          toggleButton.style.alignItems = 'center';
+          toggleButton.style.justifyContent = 'center';
+          toggleButton.style.width = 'auto';
+          toggleButton.style.minWidth = '180px';
+          toggleButton.style.borderRadius = '30px';
+          toggleButton.style.padding = '0 20px';
+          toggleButton.style.fontFamily = "'Poppins', sans-serif";
+        }
+        removePoweredByN8n();
+      }, 1000);
+      setTimeout(() => {
+        const chatContainer = document.getElementById('iarev-chat');
+        if (chatContainer) {
+          chatContainer.addEventListener('click', function(e) {
+            const sendButton = e.target.closest('[data-testid="send-button"], .chat__input-send-button, button.svelte-1omdpz4');
+            if (sendButton) {
+              const input = chatContainer.querySelector('input.svelte-1omdpz4, textarea.svelte-1omdpz4');
+              if (input && !input.value.trim()) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.warn('Mensagem vazia bloqueada');
+                return false;
+              }
+            }
+          }, true);
+          chatContainer.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              const input = e.target;
+              if (input && (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') && !input.value.trim()) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.warn('Mensagem vazia bloqueada');
+                return false;
+              }
+            }
+          }, true);
+        }
+      }, 1500);
+    </script>
+</body>
+</html>
