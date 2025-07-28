@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat IA Revolution</title>
+
+    <script>
+      const nomeModuloEstatico = 'agente_de_ia_com_n8n';
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      /* ===== TODO O SEU CSS ORIGINAL VAI AQUI ===== */
+      /* ... (código CSS omitido para brevidade, mas está incluído no seu arquivo) ... */
+      :root { --chat--color-primary: #7C00FF; /* etc... */ }
+      .chat-header h1 { font-family: 'Montserrat', sans-serif !important; /* etc... */ }
+      /* ... e todo o resto do seu estilo ... */
+    </style>
+</head>
+<body style="margin: 0;">
+
+    <div id="iarev-chat"></div>
+
+    <script type="module">
+      // Importa a biblioteca do N8N Chat
+      import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js";
+
+      /* =======================================
+         PREVENÇÃO DE MÚLTIPLAS INSTÂNCIAS
+       ======================================= */
+      if (window.__iarevChat) {
+        window.__iarevChat.destroy?.();
+      }
+
+      /* =======================================
+         CONFIGURAÇÃO DE METADADOS
+       ======================================= */
+
+      // Função para converter texto em slug
+      const slugify = (s) =>
+        s
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_");
+
+      // Objeto de metadados agora começa com um valor padrão
+      const metadata = {
+        modulo: nomeModuloEstatico,
+        aula: "aula_geral" // Valor inicial
+      };
+
+      // /* =======================================
+         RECEPTOR DE MENSAGENS DA PÁGINA PRINCIPAL
+       ======================================= */
+      window.addEventListener('message', function(event) {
+        // Medida de segurança: só aceita mensagens da sua plataforma Cademy
+        // ATENÇÃO: Para máxima segurança, substitua 'cademy.com.br' pela URL exata da sua escola.
+        // Ex: if (event.origin !== 'https://suaescola.cademy.com.br') return;
+        if (!event.origin.includes('cademy.com.br')) {
+            console.warn('Mensagem de origem desconhecida ignorada:', event.origin);
+            return;
+        }
+
+        // Verifica se a mensagem tem o formato que esperamos
+        if (event.data && event.data.type === 'setAula') {
+          console.log('Nome da aula recebido da Cademy:', event.data.aula);
+          
+          // Atualiza o nome da aula no nosso objeto metadata
+          metadata.aula = slugify(event.data.aula);
+        }
+      });
+      // /* =======================================
+         FUNÇÃO PARA REMOVER "Powered by n8n"
+       ======================================= */
+      function removePoweredByN8n() {
+        // ... (sua função original removePoweredByN8n continua aqui) ...
+      }
+
+      /* =======================================
+         CRIAÇÃO E CONFIGURAÇÃO DO CHAT
+       ======================================= */
+      window.__iarevChat = createChat({
+        target: "#iarev-chat",
+        webhookUrl: "/api/chat-proxy",
+        metadata, // Este objeto agora será atualizado dinamicamente!
+        showWelcomeScreen: false,
+        initialMessages: [
+            "Olá! Sou a Athena, monitora do IA Revolution. Me fala qual é sua pergunta sobre essa aula, que vou te ajudar 😄"
+        ],
+        i18n: {
+          en: {
+            title: 'Athena IA 🧠',
+            subtitle: "Sua Monitora do IA Revolution!",
+            inputPlaceholder: "Digite sua dúvida aqui…",
+          }
+        }
+      });
+
+      // ... (todo o resto do seu código de customização com setTimeout, observers, etc., continua aqui) ...
+      
+    </script>
+</body>
+</html>
